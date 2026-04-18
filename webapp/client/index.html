@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compiler Lab | Terminal Dashboard</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body class="terminal-theme">
+    <div class="scanlines"></div>
+
+    <main class="dashboard">
+        <aside class="sidebar">
+            <div class="panel-header">
+                <span class="title">_SOURCE_INPUT</span>
+            </div>
+            <div class="editor-container">
+                <textarea id="code-input" spellcheck="false" placeholder="// ENTER_INSTRUCTIONS_HERE
+x = 10
+y = 20
+L1:
+z = x + y
+a = 5
+b = z * 2
+if x goto L2
+goto L3
+L2:
+x = x - 1
+goto L1
+L3:
+return z
+L4:
+w = 100
+return w"></textarea>
+            </div>
+            <div class="panel-footer" style="padding: 10px; border-top: 2px solid #ffffff;">
+                <button id="run-btn" class="cmd-btn" style="width: 100%;">EXE::RUN_OPTIMIZER</button>
+            </div>
+        </aside>
+
+        <section class="results">
+            <nav class="tab-nav">
+                <button class="tab-btn active" data-tab="code-view">ANALYSIS_VIEW</button>
+                <button class="tab-btn" data-tab="cfg-view">GRAPH_MAP</button>
+            </nav>
+
+            <div class="tab-content active" id="code-view">
+                <div class="code-grid">
+                    <div class="code-panel">
+                        <div class="panel-header">
+                            <span>RAW_IR_STREAM</span>
+                        </div>
+                        <pre id="original-code" class="code-display">/* NULL_DATA_STREAM */</pre>
+                    </div>
+                    <div class="code-panel">
+                        <div class="panel-header">
+                            <span>OPT_IR_STREAM</span>
+                        </div>
+                        <pre id="optimized-code" class="code-display">/* AWAITING_PROCESSING */</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="cfg-view">
+                <div class="cfg-container">
+                    <div class="cfg-controls">
+                        <button class="tab-btn sub-tab active" data-cfg="initial">INITIAL_STATE</button>
+                        <button class="tab-btn sub-tab" data-cfg="final">OPTIMIZED_STATE</button>
+                    </div>
+                    <div id="mermaid-graph" class="mermaid"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="console-output">
+            <span class="prefix">ROOT@COMPILER:~$</span>
+            <span id="console-msg">CORE_SYSTEM_READY.</span>
+        </div>
+    </footer>
+
+    <script type="module" src="./main.js"></script>
+</body>
+</html>

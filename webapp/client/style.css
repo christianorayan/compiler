@@ -1,0 +1,325 @@
+:root {
+    --bg-color: #000000;
+    --panel-color: #000000;
+    --border-color: #ffffff;
+    --accent-color: #ffffff;
+    --text-color: #ffffff;
+    --text-dim: #aaaaaa;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+    --terminal-border: 2px solid #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-mono);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    border: 4px solid #ffffff;
+}
+
+/* CRT Effects */
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.25) 50%
+    ), linear-gradient(
+        90deg,
+        rgba(255, 0, 0, 0.03),
+        rgba(0, 255, 0, 0.01),
+        rgba(0, 0, 255, 0.03)
+    );
+    background-size: 100% 3px, 3px 100%;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+body::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(18, 16, 16, 0.1);
+    opacity: 0;
+    z-index: 1001;
+    pointer-events: none;
+    animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+    0% { opacity: 0.27861; }
+    5% { opacity: 0.34769; }
+    10% { opacity: 0.23604; }
+    15% { opacity: 0.90626; }
+    20% { opacity: 0.18128; }
+    25% { opacity: 0.83891; }
+    30% { opacity: 0.65583; }
+    35% { opacity: 0.67807; }
+    40% { opacity: 0.26559; }
+    45% { opacity: 0.84693; }
+    50% { opacity: 0.96019; }
+    55% { opacity: 0.08594; }
+    60% { opacity: 0.20313; }
+    65% { opacity: 0.71988; }
+    70% { opacity: 0.53455; }
+    75% { opacity: 0.37288; }
+    80% { opacity: 0.71428; }
+    85% { opacity: 0.70419; }
+    90% { opacity: 0.7003; }
+    95% { opacity: 0.36108; }
+    100% { opacity: 0.24387; }
+}
+
+/* Panels and Headers */
+.panel-header {
+    background: #ffffff;
+    border-bottom: 2px solid #000000;
+    padding: 6px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: #000000;
+    text-transform: uppercase;
+}
+
+/* Dashboard Layout */
+.dashboard {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    height: calc(100vh - 54px); /* Subtract footer height and border */
+}
+
+.sidebar {
+    width: 400px;
+    border-right: 4px solid #ffffff;
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-container {
+    flex: 1;
+    padding: 20px;
+    background: #000000;
+}
+
+#code-input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    resize: none;
+    outline: none;
+    line-height: 1.6;
+}
+
+/* Buttons */
+.cmd-btn {
+    background: #000000;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    padding: 6px 16px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.cmd-btn:hover {
+    background: #ffffff;
+    color: #000000;
+}
+
+.cmd-btn:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
+
+/* Results Section */
+.results {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.tab-nav {
+    display: flex;
+    background: #000000;
+    border-bottom: 2px solid #ffffff;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    border-right: 2px solid #ffffff;
+    color: #aaaaaa;
+    padding: 12px 24px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tab-btn.active {
+    background: #ffffff;
+    color: #000000;
+}
+
+.tab-content {
+    display: none;
+    flex: 1;
+    overflow: hidden;
+}
+
+.tab-content.active {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Code Grid */
+.code-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    background: #ffffff;
+    height: 100%;
+}
+
+.code-panel {
+    background: #000000;
+    display: flex;
+    flex-direction: column;
+}
+
+.code-display {
+    flex: 1;
+    padding: 20px;
+    overflow: auto;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    color: #ffffff;
+}
+
+#optimized-code {
+    background: #000000;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+/* CFG View */
+.cfg-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: #000000;
+}
+
+.cfg-controls {
+    padding: 12px;
+    display: flex;
+    gap: 12px;
+    background: #000000;
+    border-bottom: 2px solid #ffffff;
+}
+
+.sub-tab {
+    padding: 6px 16px;
+    font-size: 0.7rem;
+    border: 2px solid #ffffff;
+}
+
+#mermaid-graph {
+    flex: 1;
+    display: block; /* Change from flex to block for reliable scrolling */
+    padding: 40px;
+    overflow: scroll; /* Force scrollbar visibility or use auto */
+    background: #000000;
+    position: relative;
+}
+
+#mermaid-graph .mermaid {
+    min-width: 100%;
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Mermaid Customization Overrides */
+.mermaid svg {
+    max-width: none !important; /* Allow SVG to exceed container width */
+}
+
+/* Footer */
+.main-footer {
+    height: 50px;
+    background: #ffffff;
+    border-top: 4px solid #ffffff;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    color: #000000;
+}
+
+.console-output {
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
+.console-output .prefix {
+    color: #000000;
+    margin-right: 8px;
+}
+
+#console-msg {
+    color: #000000;
+    text-transform: uppercase;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+    width: 16px; /* Increased width */
+    height: 16px;
+}
+
+::-webkit-scrollbar-track {
+    background: #000000;
+    border: 1px solid #ffffff;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ffffff;
+    border: 3px solid #000000;
+    border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #dddddd;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+}
