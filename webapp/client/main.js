@@ -170,5 +170,65 @@ function log(msg, type = 'info') {
 
 runBtn.addEventListener('click', runOptimizer);
 
+// Auto-fill logic
+const autofillBtn = document.getElementById('autofill-btn');
+const EXAMPLES = [
+    `// STRESS_TEST: DEAD_CODE_ELIMINATION
+x = 10
+y = 20
+unused_1 = x + y  // DEAD
+z = x * 2
+unused_2 = 50     // DEAD
+a = z + 5
+unused_3 = a * 10 // DEAD
+return a`,
+
+    `// STRESS_TEST: UNREACHABLE_CODE
+x = 5
+if x goto L1
+y = 10            // Reachable
+goto L2
+L1:
+y = 20            // Reachable
+L2:
+return y
+// EVERYTHING BELOW IS UNREACHABLE
+z = 100
+w = z + 1
+return w`,
+
+    `// STRESS_TEST: COMPLEX_CONTROL_FLOW
+i = 0
+sum = 0
+L_LOOP:
+if i goto L_BODY  // Condition
+goto L_END
+L_BODY:
+temp = i * i      // DEAD if not used
+sum = sum + i
+dead_var = 999    // DEAD
+i = i + 1
+goto L_LOOP
+L_END:
+return sum
+L_EXIT:           // UNREACHABLE
+return 0`
+];
+
+let lastIdx = -1;
+autofillBtn.addEventListener('click', () => {
+    let idx;
+    do {
+        idx = Math.floor(Math.random() * EXAMPLES.length);
+    } while (idx === lastIdx && EXAMPLES.length > 1);
+    
+    lastIdx = idx;
+    codeInput.value = EXAMPLES[idx];
+    log(`ACTION: AUTO_FILL_TEMPLATE_${String.fromCharCode(65 + idx)}`);
+    
+    // Auto-run if desired, or just let the user click run.
+    // We'll just fill it for now.
+});
+
 // Initial log
 log('SYSTEM_READY. KERNEL_LOADED: COMPILER_LAB');

@@ -116,6 +116,17 @@ body::after {
     flex-direction: column;
 }
 
+.panel-footer {
+    padding: 10px;
+    border-top: 4px solid #ffffff;
+    display: flex;
+    gap: 10px;
+}
+
+.panel-footer .cmd-btn {
+    flex: 1;
+}
+
 .editor-container {
     flex: 1;
     padding: 20px;
